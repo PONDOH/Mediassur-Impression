@@ -56,12 +56,10 @@ export default function Sider(props) {
 
                 <SubMenu key="lot" icon={<FolderOpenOutlined />} title="Lot d'attestations">
                     <Menu.Item key="lot">Liste des lots</Menu.Item>
-                    {/* <Menu.Item key="#">Lots non archivés</Menu.Item> */}
                 </SubMenu>
 
                 <SubMenu key="reporting" icon={<FundViewOutlined />} title="Reporting">
                     <Menu.Item key="reporting">Historique des attestations</Menu.Item>
-                    {/* <Menu.Item key="lotHistory">Historique des lots</Menu.Item> */}
                 </SubMenu>
 
                 <SubMenu key="setting" icon={<SettingOutlined />} title="Paramètres">
