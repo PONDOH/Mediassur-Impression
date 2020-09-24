@@ -16,9 +16,7 @@ export default function Sider(props) {
     const[state, setState] = useState({
         currentItem: {},
         isAddDrawerVisible: false,
-        openkeys: ['attestation'],
-        //rootSubmenuKeys:[],
-        rootSubmenukeys : ['attestation', 'lot', 'reporting', 'setting']
+
     })
     const history = useHistory()
 
@@ -30,17 +28,6 @@ export default function Sider(props) {
         setState(state => ({...state, isAddDrawerVisible: false}))
     }
 
-    // const onOpenChange = openKeys => {  
-    //     const latestOpenKey = openKeys.find(key => openKeys.indexOf(key) === -1);
-    //     let rootSubmenuKeys = state;
-    //     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-    //         setState({...state, openKeys });
-    //     } else {
-    //         setState({...state,
-    //         openKeys: latestOpenKey ? [latestOpenKey] : [],
-    //       });
-    //     }
-    //   };
 
     return (
         <div>
@@ -60,8 +47,7 @@ export default function Sider(props) {
                 onClick={handleClick}
                 style={{ width: "100%"}}
                 mode="inline"
-                // openkeys={state.openkeys}
-                // onOpenChange= {onOpenChange}
+            
             >
                 <SubMenu key="attestation" icon={<CreditCardOutlined />} title="Attestations">
                     <Menu.Item key="newAttestation" onClick={() => setState(state => ({...state, isAddDrawerVisible: true}))}>Nouvelle attestation</Menu.Item>

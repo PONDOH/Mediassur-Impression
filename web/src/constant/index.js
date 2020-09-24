@@ -1,5 +1,5 @@
-export const API_BASE_URL = 'http://192.168.1.119:8080/v1';
-//export const API_BASE_URL = 'http://192.168.1.119:8080/v1';
+export const API_BASE_URL = 'http://192.168.1.101:8080/v1';
+//export const API_BASE_URL = 'http://192.168.1.101:8080/v1';
 // export const API_BASE_URL = 'http://app.diginfactory.com:8081/api';
 export const ACCESS_TOKEN = 'accessToken';
 
