@@ -80,6 +80,7 @@ class Parametre extends Component {
 // Creer un assureur
 
   CreateNewAssurreur = (e) => {
+    this.setState({loading: true})
     e.preventDefault();
     const warning200 = () => {
       message.success('Succès','Enregistrement effectué avec succès !!!');
@@ -132,6 +133,7 @@ class Parametre extends Component {
   //  Marque
   
   addMarque = (e) => {
+    this.setState({loading: true})
     e.preventDefault(); 
     const warning200 = () => {
       message.success('Succès','Enregistrement effectué avec succès !!!');
@@ -165,6 +167,7 @@ class Parametre extends Component {
   };
 
   addAssures = (e) => {
+    this.setState({loading: true})
     e.preventDefault(); 
     const warning200 = () => {
       message.success('Succès','Enregistrement effectué avec succès !!!');
@@ -205,6 +208,7 @@ class Parametre extends Component {
 
 
 addAssureurs = (e) => {
+  this.setState({loading: true})
   e.preventDefault(); 
   const warning200 = () => {
     message.success('Succès','Enregistrement effectué avec succès !!!');
@@ -313,6 +317,7 @@ closeModalDeleteAssures = () => {
 // FUNCTION UPDATE USER
 
 updateData = e => {
+  this.setState({loading: true})
   e.preventDefault();
   const warning200 = () => {
     message.success('Succès','Modification effectué avec succès !!!');
@@ -374,6 +379,7 @@ selectForUpdate =(item)=>{
 // FUCTION UPD ASSURER
 
 updateDataAssure = e => {
+  this.setState({loading: true})
   e.preventDefault();
   const warning200 = () => {
     message.success('Succès','Modification effectué avec succès !!!');
@@ -431,6 +437,7 @@ selectForUpdateAssure =(item)=>{
 }
 //========================FUNCTION UPDATE ASSUREUR ===========================================
 updateDataAssureurs = e => {
+  this.setState({loading: true})
   e.preventDefault();
   const warning200 = () => {
     message.success('Succès','Modification effectué avec succès !!!');
@@ -489,6 +496,7 @@ selectForUpdateAssureur =(item)=>{
 
  //========================FUNCTION UPDATE MARQUE ===========================================
  updateDataMarque = e => {
+  this.setState({loading: true})
   e.preventDefault();
   const warning200 = () => {
     message.success('Succès','Modification effectué avec succès !!!');
@@ -747,7 +755,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={this.hideAssuresModal}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Ajouter
                             </Button>
                         </div>
@@ -779,7 +787,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={this.hideAssureursModal}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit" >
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Ajouter
                             </Button>
                         </div>
@@ -826,7 +834,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={()=> this.openModal(false)}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Ajouter
                             </Button>
                         </div>
@@ -859,7 +867,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={this.hideModal1}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Ajouter
                             </Button>
                         </div>
@@ -878,7 +886,7 @@ selectForUpdateMarque =(item)=>{
                             <div className="form-row" >
                                 <div className="col form-group">
                                     <label><strong> ID : </strong></label>
-                      <input id="iduser" disabled="true" name="name" type="text" value={this.state.currentUser.id} onChange={this.handleChange} className="form-control form-control-sm" required/>
+                                    <input id="iduser" disabled="true" name="name" type="text" value={this.state.currentUser.id} onChange={this.handleChange} className="form-control form-control-sm" required/>
                                 </div>
                             </div>
                             <div className="form-row" >
@@ -903,7 +911,7 @@ selectForUpdateMarque =(item)=>{
                             <div className="form-row">
                                 <div className="col form-group">
                                     <label><strong> EMAIL : </strong></label>
-                      <input id="email" disabled="true" name="email" value={this.state.currentUser.email} onChange={this.handleChange} type="email" className="form-control form-control-sm" required />
+                                    <input id="email" disabled="true" name="email" value={this.state.currentUser.email} onChange={this.handleChange} type="email" className="form-control form-control-sm" required />
                                 </div>
                             </div>
                             <div className="form-row">
@@ -932,7 +940,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={()=> this.openModalForUpd(false)}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Modifier
                             </Button>
                         </div>
@@ -970,7 +978,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={()=> this.openModalForUpdAssure(false)}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Modifier
                             </Button>
                         </div>
@@ -1014,7 +1022,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={()=> this.openModalForUpdAssureurs(false)}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Modifier
                             </Button>
                         </div>
@@ -1054,7 +1062,7 @@ selectForUpdateMarque =(item)=>{
                             <Button onClick={()=> this.openModalForUpdMarque(false)}>
                                 Annuler
                             </Button> &nbsp;
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" disabled={this.state.loading} loading={this.state.loading}>
                                 Modifier
                             </Button>
                         </div>

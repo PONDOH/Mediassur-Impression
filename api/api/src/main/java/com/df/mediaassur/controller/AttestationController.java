@@ -69,6 +69,8 @@ public class AttestationController {
     @PostMapping
     public ResponseEntity<?> Create(@Valid @RequestBody Attestation attestation) {
         System.out.println("Date =====>"+attestation);
+        attestation.setAssure(assureRepository.getOne(attestation.getAssureId()).getName());
+        attestation.setAssureur(assureurRepository.getOne(attestation.getAssureurId()).getName());
         attestationRepository.save(attestation);
 
         if(attestation.getId() != null){

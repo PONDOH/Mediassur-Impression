@@ -30,7 +30,7 @@ function UserList(props) {
     const [state, setState] = useState(
       {
       listLot: [],
-      isLoading: true,
+      isLoading: false,
       isUpdateDrawerVisible: false,
       isAddDrawerVisible: false,
       currentItem: {},
@@ -56,9 +56,9 @@ function UserList(props) {
       singleLoader: false,
       singlelotId: localStorage.getItem('lotId'),
       attestations: parseJSON(localStorage.getItem("attestation")),
+      listAssureurs:[],
       listAssures:[],
-      listAssureurs:[]
-      
+      loading : false,
       
       }
     )
@@ -66,7 +66,7 @@ function UserList(props) {
     useEffect(() => {
         setState(state => ({...state, isLoading: true }));
         getSLots();
-        getSingleLot();
+        ///getSingleLot();
         getMarque();
         getAssureurs();
         getAssures();
@@ -264,9 +264,9 @@ function UserList(props) {
         { title: 'Numero jaune', width: "12%", key: '2', dataIndex: "numeroJaune"},
         { title: 'Numero cedeao', width: "12%", key: '3', dataIndex: "numeroCedeao"},
         { title: 'Assure', width: "12%", key: '4', dataIndex: "assure" },
-        { title: 'Assureur', width: "12%", key: '5', dataIndex: "assureur"},
+        { title: 'Assureur', width: "15%", key: '5', dataIndex: "assureur"},
         { title: 'Adresse', width: "20%", key: '6', dataIndex: "assureurAddress"},
-        { title: 'Marque', width: "10%", key: '7', dataIndex: "marque"},
+        { title: 'Marque', width: "12%", key: '7', dataIndex: "marque"},
         { title: 'Immatriculation', width: "12%", key: '8', dataIndex: "immatriculation" },
         { title: "Date d'Emission", dataIndex: 'startDate', width: '12%', key:"8", render: (item) =>(
             <div>
@@ -283,7 +283,7 @@ function UserList(props) {
         {
             title: 'Statut',
             key: '13',
-            width: "22%",
+            width: "25%",
             render: (item) => (
                 <div>
                     <td>{item.statusCedeao == 0 ? <Tag color="blue">Cedeao non generée</Tag> : item.statusCedeao == 1 ? <Tag color="green">Cedeao generée</Tag> : <Tag color="red">Cedeao Annulée</Tag>}</td> <td>{item.statusJaune == 0 ? <Tag color="blue">Jaune non generée</Tag> : item.statusJaune == 1 ? <Tag color="green">Jaune generée</Tag> : <Tag color="red">Jaune Annulée</Tag>}</td>
@@ -292,7 +292,9 @@ function UserList(props) {
         },
         {
             title: 'Action', width: "7%", key: '14', dataIndex: "action", fixed: "right",
-            render: (text, item) => (
+            render: (text, item) => {
+                console.log('---', item)
+                return (
                 <Fragment>
                     <PrinterOutlined
                         onClick={() => {
@@ -309,7 +311,8 @@ function UserList(props) {
                         }}
                     />
                 </Fragment>
-            )
+                )
+            }
         }
     ];
   
@@ -329,13 +332,20 @@ function UserList(props) {
 
     
     function SearchLotAttestation(){
-        if(state.searchInput  ==null||state.searchInput ==""){
-            return state.singleLot;
+        if(state.searchInput  === null||state.searchInput === ""){
+            return state.lots;
         }
         else
         {
-         let attestations = state.singleLot.filter(function(attestation){
-             return attestation.numeroJaune == state.searchInput || attestation.numeroCedeao == state.searchInput || attestation.marque == state.searchInput || attestation.immatriculation == state.searchInput;
+         let attestations = state.lots.filter(function(attestation){
+             return attestation.numeroPolice == state.searchInput ||
+                    attestation.numeroCedeao == state.searchInput || 
+                    attestation.numeroJaune == state.searchInput || 
+                    attestation.marque == state.searchInput || 
+                    attestation.immatriculation == state.searchInput ||
+                    attestation.assure == state.searchInput || 
+                    attestation.assureur == state.searchInput || 
+                    attestation.assureurAddress == state.searchInput;
          })
          return attestations;
          
@@ -437,6 +447,7 @@ function UserList(props) {
 
     // ============================================ Function Update ================================================
     function updateAttestation(e) {
+        setState(state => ({...state, loading: true}));
         e.preventDefault();
         const warning200 = () => {
             message.success('Succès','Modification effectué avec succès !!!');
@@ -488,6 +499,7 @@ function UserList(props) {
     const loaderCedeao = state.btnLoadACedeao;
     const singleLoader = state.singleBtnLoad;
     const infoLot = state.infolot;
+    const isLoad = state.loading
 
     function getISODate(date){
         if(date){
@@ -617,28 +629,22 @@ function UserList(props) {
           isLoading: false,
            listAssures:res.data|| []
        }));
- 
- 
        });
-     
-   } 
+   }
  
  
    function getAssureurs(){
-     axios.get(API_BASE_URL+'/assureurs',{
-     headers: { Authorization: "Bearer " + localStorage.getItem('token')}
- 
-     })
-     .then(res=>{ 
-         setState(state =>({
-           ...state,     
-            isLoading: false,
-             listAssureurs:res.data|| []
-         }));
-   
- 
-         });
-   }
+    axios.get(API_BASE_URL+'/assureurs',{
+    headers: { Authorization: "Bearer " + localStorage.getItem('token')}
+    })
+    .then(res=>{ 
+        setState(state =>({
+          ...state,     
+           isLoading: false,
+            listAssureurs:res.data|| []
+        }));
+        });
+  }
  
    function getMarque(){
      axios.get(API_BASE_URL  + '/marque')
@@ -691,11 +697,14 @@ function UserList(props) {
                         <div className="container-fluid">
 
                                 <div className={classes.titleContainer}>
-
+                                    <div>
+                                        <h2 className={classes.title}>Liste des attestations enregistrées</h2>
+                                    </div>
+                                    <div style={{ width: "30%", float: "right" }}>
+                                        <Input type="text" placeholder="Search" name="seach" onChange={handlesearchInput} />
+                                    </div>
                                 </div>
-                                <div>
-                                    <h2 className={classes.title}>Liste des attestations enregistrées</h2>
-                                </div>
+                                
                                 <Divider />
 
                                 <div style={{ overflow: "auto", padding: 5 }}>
@@ -703,8 +712,8 @@ function UserList(props) {
                                     <Table
                                         rowKey={record => record.id}
                                         columns={columns1}
-                                        dataSource={state.lots}
-                                        //dataSource={SearchLotAttestation}
+                                        //dataSource={state.lots}
+                                        dataSource={SearchLotAttestation()}
                                         loading={state.isLoading}
                                         scroll={{ x: 2500 }}
                                     />
@@ -896,7 +905,7 @@ function UserList(props) {
                         <Button style={{cursor:"pointer"}} onClick={() => { hideModal(false) }} >
                             Annuler
                         </Button> &nbsp;
-                        <Button style={{cursor:"pointer"}} type="primary" htmlType="submit" >
+                        <Button style={{cursor:"pointer"}} type="primary" htmlType="submit" loading={state.loading} disabled={state.loading}>
                             Modifier
                         </Button>
                     </div>

@@ -37,6 +37,7 @@ export const URLS = {
 
 export const GET_CLIENT_FILES_CTR = API_BASE_URL + "/files/get/clients/";
 export const GET_USERS_FILES_CTR = API_BASE_URL + "/files/get/users/";
+export const GET_ATTESTATIONS_FILES_CTR = API_BASE_URL + "/files/get/attestations/";
 
 
 export const POLL_LIST_SIZE = 200;

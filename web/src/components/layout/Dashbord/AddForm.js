@@ -125,13 +125,17 @@ function AddForm(props) {
 
 
     function onFinish(values){
+      setState(state =>({...state, loading: true}))
     let objRequest = Object.assign({}, values);
+    console.log("objRequest objRequest", objRequest)
     objRequest.status = 1;
     let lot={
       assureur: objRequest.assureur,
+      assureurId: objRequest.assureurId,
       assureurAddress: objRequest.assureurAddress,
       numeroPolice: objRequest.numeroPolice,
       assure: objRequest.assure,
+      assureId: objRequest.assureId,
       genre: objRequest.genre,
       immatriculation: objRequest.immatriculation,
       lotId: objRequest.lot_id,
@@ -247,15 +251,15 @@ function AddForm(props) {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                name="assure"
-                id="assure"
+                name="assureId"
+                id="assureId"
                 label="Assure"
                 rules={[{ required: true, message: 'Veuillez selectionner le nom de l\'assuré' }]}
               >
               
                 <Select placeholder="Veuillez selectionner le nom de l'assuré" >
                       {state.listAssures.map(( m, index) => (
-                        <Option key={m.name} value={m.name}>{m.name}</Option>
+                        <Option key={m.name} value={m.id}>{m.name}</Option>
                       ))}
                 </Select>
               </Form.Item>
@@ -263,13 +267,13 @@ function AddForm(props) {
             <Col span={12}>
                 <Form.Item
                     id="assureurId"
-                    name="assureur"
+                    name="assureurId"
                     label="Assureur"
                     rules={[{ required: true, message: 'Veuillez saisir votre assureur' }]}
                   >
                      <Select placeholder="Veuillez selectionner votre assureur">
                         {state.listAssureurs.map(( m, index) => (
-                          <Option key={m.name} value={m.name}>{m.name}</Option>
+                          <Option key={m.name} value={m.id}>{m.name}</Option>
                         ))}
                     </Select>
           
@@ -385,6 +389,7 @@ function AddForm(props) {
               Annuler
             </Button>
             <Button
+              disabled={state.loading}
               loading={state.loading} 
               htmlType="submit" type="primary"
             >

@@ -146,6 +146,7 @@ function Login({isAuthenticated, signIn}){
               htmlType="submit" 
               className="login-form-button"
               loading={state.isLoading}
+              disabled={state.isLoading}
             >
               Connexion
             </Button>

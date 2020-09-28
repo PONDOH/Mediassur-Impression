@@ -14,7 +14,7 @@ import styles from './styles'
 import { element } from 'prop-types';
 import { API_ROUTE } from 'api/routes';
 import { parseJSON } from 'jquery';
-import {API_BASE_URL} from '../../constant'
+import {API_BASE_URL, GET_ATTESTATIONS_FILES_CTR} from '../../constant'
 
 const useStyles = makeStyles(styles);
 let pdf_viewer_url = API_BASE_URL.replace("v1", "") + "viewer/web/viewer.html?file=";
@@ -52,6 +52,7 @@ function CategoryList(props) {
         listAssureurs:[],
         listAssures:[],
         marque:[],
+        loading: false
     })
 
     const classes = useStyles()
@@ -237,7 +238,9 @@ function CategoryList(props) {
         },
         {
             title: 'Action', width: "7%", key: '14', dataIndex: "action", fixed: "right",
-            render: (text, item) => (
+            render: (text, item) => {
+                console.log('dddddd' , item)
+                return (
                 <Fragment>
                     <PrinterOutlined
                         onClick={() => {
@@ -254,7 +257,8 @@ function CategoryList(props) {
                         }}
                     />
                 </Fragment>
-            )
+                )
+            }
         }
     ];
 
@@ -372,6 +376,7 @@ function CategoryList(props) {
 
     // ============================================ Function Update ================================================
     function updateAttestation(e) {
+        setState(state =>({...state, loading: true}))
         e.preventDefault();
         const warning200 = () => {
             message.success('Succès','Modification effectué avec succès !!!');
@@ -407,16 +412,18 @@ function CategoryList(props) {
             });
     }
 
-    function openLinkCedeao() {
-        window.open(localStorage.getItem('lienCedeao'))
+    function openLinkCedeao(id) {
+        //http://192.168.1.101:8080/v1/files/get/attestations/lot_cedeao_1102.pdf
+        window.open(pdf_viewer_url + GET_ATTESTATIONS_FILES_CTR + "lot_cedeao_" + id + ".pdf")
     }
 
     function openLink() {
         window.open(localStorage.getItem('modal'))
     }
 
-    function openLinkJaune() {
-        window.open(localStorage.getItem('lienJaune'))
+    function openLinkJaune(id) {
+        //window.open(localStorage.getItem('lienJaune'))
+        window.open(pdf_viewer_url + GET_ATTESTATIONS_FILES_CTR + "lot_jaune_" + id + ".pdf")
        // console.log("=======================================>", localStorage.getItem('lienJaune'))
     }
     
@@ -462,8 +469,6 @@ function CategoryList(props) {
             isLoading: false,
              listAssureurs:res.data|| []
          }));
-   
- 
          });
    }
  
@@ -549,7 +554,7 @@ function CategoryList(props) {
                             <div style={{ marginTop: "20px" }}>
                                 <div style={{ textAlign: "right" }}>
                                     {state.impressionStatutJaune ? (
-                                        <Button className="text-white bg-warning" style={{ marginRight: '10px', borderRadius: "5px" }} onClick={openLinkJaune}>
+                                        <Button className="text-white bg-warning" style={{ marginRight: '10px', borderRadius: "5px" }} onClick={()=> openLinkJaune(infoLot.id)}>
                                             <UploadOutlined style={{ color: "white" }} />Telecharger Jaune
                                         </Button>
                                     ) : (
@@ -559,7 +564,7 @@ function CategoryList(props) {
                                         )}
 
                                     {state.impressionStatutCedeao ? (
-                                        <Button style={{ backgroundColor: "#008000", color: "white", marginTop: "15px", borderRadius: "5px" }} onClick={openLinkCedeao} >
+                                        <Button style={{ backgroundColor: "#008000", color: "white", marginTop: "15px", borderRadius: "5px" }} onClick={()=> openLinkCedeao(infoLot.id)} >
                                             <UploadOutlined style={{ color: "white" }} />Telecharger CEDEAO
                                         </Button>
                                     ) : (
@@ -762,7 +767,7 @@ function CategoryList(props) {
                         <Button style={{cursor:"pointer"}} onClick={() => { hideModal(false) }} >
                             Annuler
                         </Button> &nbsp;
-                        <Button style={{cursor:"pointer"}} type="primary" htmlType="submit" >
+                        <Button style={{cursor:"pointer"}} type="primary" htmlType="submit" loading={state.loading} disabled={state.loading}>
                             Modifier
                         </Button>
                     </div>

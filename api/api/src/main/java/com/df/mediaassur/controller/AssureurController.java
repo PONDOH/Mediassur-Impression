@@ -41,6 +41,7 @@ public class AssureurController {
         //return userService.getAll();
     }
 
+
     @GetMapping("{assureurId}")
     public AssureurResponse getOne(@PathVariable Integer assureurId) {
         return assureurService.getById(assureurId);
@@ -70,8 +71,5 @@ public class AssureurController {
         return lotService.getByAssureur(assureurId);
         //return userService.getAll();
     }
-
-
-
 
 }
