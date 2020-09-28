@@ -394,7 +394,6 @@ function CategoryList(props) {
             .then(response => {
                 if (response){
                   warning200()
-                  //window.location.href="/DetailsLots"
                   hideModal();
                   getSingleLot()
                   setState(state => {
